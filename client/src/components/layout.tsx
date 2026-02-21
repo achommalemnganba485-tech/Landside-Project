@@ -9,6 +9,7 @@ import {
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { SidebarProvider } from "@/components/ui/sidebar";
+import landslideBg from "@assets/landslide1_1771696476654.jpeg";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [location] = useLocation();
@@ -19,9 +20,27 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     { href: "/alerts", label: "Alerts", icon: Bell },
   ];
 
+  const getBackground = () => {
+    switch (location) {
+      case "/":
+        return `url(${landslideBg})`;
+      case "/map":
+        return "linear-gradient(to bottom right, #0f172a, #1e293b, #0f172a)";
+      case "/alerts":
+        return "radial-gradient(circle at center, #1e1b4b, #0f172a, #020617)";
+      default:
+        return "none";
+    }
+  };
+
   return (
     <SidebarProvider>
-      <div className="min-h-screen w-full bg-background flex flex-col md:flex-row text-foreground">
+      <div 
+        className="min-h-screen w-full flex flex-col md:flex-row text-foreground bg-cover bg-center bg-no-repeat transition-all duration-700"
+        style={{ backgroundImage: getBackground() }}
+      >
+        <div className="absolute inset-0 bg-background/60 backdrop-blur-[2px] pointer-events-none" />
+        
         {/* Mobile Header */}
         <header className="md:hidden flex items-center justify-between p-4 border-b border-border/40 bg-card/50 backdrop-blur-md sticky top-0 z-50">
           <div className="flex items-center gap-2 font-bold text-xl">
@@ -84,7 +103,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         </aside>
 
         {/* Main Content */}
-        <main className="flex-1 overflow-auto p-4 md:p-8 lg:p-10">
+        <main className="flex-1 overflow-auto p-4 md:p-8 lg:p-10 relative z-10">
           <div className="max-w-7xl mx-auto space-y-8 animate-in fade-in duration-500 slide-in-from-bottom-4">
             {children}
           </div>
