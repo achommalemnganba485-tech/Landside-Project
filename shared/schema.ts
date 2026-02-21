@@ -1,18 +1,61 @@
-import { sql } from "drizzle-orm";
-import { pgTable, text, varchar } from "drizzle-orm/pg-core";
+import { pgTable, text, serial, integer, doublePrecision, timestamp } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
-export const users = pgTable("users", {
-  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
-  username: text("username").notNull().unique(),
-  password: text("password").notNull(),
+// --- SENSORS ---
+export const sensors = pgTable("sensors", {
+  id: serial("id").primaryKey(),
+  rainfall: doublePrecision("rainfall").notNull(),
+  soilMoisture: doublePrecision("soil_moisture").notNull(),
+  tiltAngle: doublePrecision("tilt_angle").notNull(),
+  vibration: doublePrecision("vibration").notNull(),
+  riskPercentage: integer("risk_percentage"),
+  riskLevel: text("risk_level"), // SAFE, MODERATE, HIGH
+  timestamp: timestamp("timestamp").defaultNow().notNull(),
 });
 
-export const insertUserSchema = createInsertSchema(users).pick({
-  username: true,
-  password: true,
+export const insertSensorSchema = createInsertSchema(sensors).omit({ 
+  id: true, 
+  timestamp: true,
+  riskPercentage: true, // Calculated by ML service
+  riskLevel: true // Calculated by ML service
 });
 
-export type InsertUser = z.infer<typeof insertUserSchema>;
-export type User = typeof users.$inferSelect;
+export type Sensor = typeof sensors.$inferSelect;
+export type InsertSensor = z.infer<typeof insertSensorSchema>;
+
+// --- MAP LOCATIONS ---
+export const locations = pgTable("locations", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  latitude: doublePrecision("latitude").notNull(),
+  longitude: doublePrecision("longitude").notNull(),
+  riskLevel: text("risk_level").notNull().default('SAFE'), // SAFE, MODERATE, HIGH
+  riskPercentage: integer("risk_percentage").notNull().default(0),
+  lastUpdated: timestamp("last_updated").defaultNow().notNull(),
+});
+
+export const insertLocationSchema = createInsertSchema(locations).omit({ 
+  id: true, 
+  lastUpdated: true 
+});
+
+export type Location = typeof locations.$inferSelect;
+export type InsertLocation = z.infer<typeof insertLocationSchema>;
+
+// --- ALERTS ---
+export const alerts = pgTable("alerts", {
+  id: serial("id").primaryKey(),
+  locationName: text("location_name").notNull(),
+  message: text("message").notNull(),
+  riskLevel: text("risk_level").notNull(), // SAFE, MODERATE, HIGH
+  timestamp: timestamp("timestamp").defaultNow().notNull(),
+});
+
+export const insertAlertSchema = createInsertSchema(alerts).omit({ 
+  id: true, 
+  timestamp: true 
+});
+
+export type Alert = typeof alerts.$inferSelect;
+export type InsertAlert = z.infer<typeof insertAlertSchema>;
