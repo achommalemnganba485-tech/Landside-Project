@@ -1,0 +1,292 @@
+🔵 FRONTEND FEATURES (React + Tailwind)
+1️⃣ Dashboard Page (AI 1 – Sensor Prediction)
+Features:
+
+Display latest sensor data:
+
+Rainfall
+
+Soil Moisture
+
+Tilt Angle
+
+Vibration
+
+Display:
+
+Risk Percentage
+
+Risk Level (SAFE / MODERATE / HIGH)
+
+Color-coded warning badge
+
+Auto refresh every 10 seconds
+
+Loading state
+
+Error state
+
+Responsive design
+
+Clean dashboard UI cards
+
+2️⃣ Map Page (AI 2 – Risk Visualization)
+
+Use Leaflet.
+
+Features:
+
+Display interactive map
+
+Fetch risk locations from backend
+
+Markers:
+
+🔴 High Risk
+
+🟡 Moderate
+
+🟢 Safe
+
+Popup on marker click:
+
+Location name
+
+Risk %
+
+Last updated time
+
+Optional heatmap layer
+
+Legend box
+
+Zoom & pan support
+
+Example UI style:
+
+3️⃣ Alerts Page (Broadcasting System)
+Features:
+
+Real-time alert updates (Socket.io)
+
+Alert card showing:
+
+Location
+
+Risk level
+
+Message
+
+Timestamp
+
+Alert history list
+
+Auto-scroll for new alerts
+
+Clear alert button (admin only if extended later)
+
+Sound notification (optional)
+
+4️⃣ Global Frontend Features
+
+Navigation bar
+
+Protected routes (if authentication added later)
+
+API service layer
+
+Environment config
+
+Mobile responsive
+
+🟢 BACKEND FEATURES (Node.js + Express)
+
+Now this is the real engine.
+
+1️⃣ Sensor Data Management
+APIs:
+
+POST /api/sensor
+
+GET /api/sensor/latest
+
+GET /api/sensor/history
+
+Features:
+
+Validate incoming sensor data
+
+Store in MongoDB
+
+Call ML service stub
+
+Save risk result
+
+Timestamp logging
+
+2️⃣ ML Service Integration (Stub Call)
+
+Send sensor data to:
+
+http://localhost:5000/predict
+
+Receive:
+
+risk_percentage
+
+risk_level
+
+Attach prediction to stored sensor record
+
+Handle timeout errors
+
+3️⃣ Map Data Management
+APIs:
+
+GET /api/map
+
+POST /api/map/location (optional admin)
+
+Features:
+
+Store locations with:
+
+latitude
+
+longitude
+
+risk level
+
+last updated
+
+Filter by risk level
+
+Example high-risk places:
+
+Tupul
+
+Awangkhul
+
+Oinamlong
+
+4️⃣ Alert Broadcasting System
+APIs:
+
+POST /api/alerts
+
+GET /api/alerts
+
+Features:
+
+Store alert in DB
+
+Emit real-time alert via Socket.io
+
+Broadcast to all connected clients
+
+Auto-trigger alert if risk = HIGH
+
+5️⃣ System-Level Backend Features
+
+Environment variable config
+
+Error handling middleware
+
+Request validation
+
+CORS configuration
+
+Logging middleware
+
+Modular folder structure
+
+Scalable architecture
+
+🟡 ML SERVICE (Python FastAPI – Stub Only)
+
+Features:
+
+POST /predict
+
+Accept sensor input
+
+Return dummy risk response
+
+Structured so model can be added later
+
+Example response:
+
+{
+  "risk_percentage": 78,
+  "risk_level": "HIGH"
+}
+🔥 NOW HERE IS THE CORRECT MASTER PROMPT (FULL VERSION)
+
+This is the version you should actually use:
+
+🧾 PROFESSIONAL MASTER PROMPT
+
+You are a senior full stack engineer.
+Build a complete production-ready Landslide Monitoring System.
+
+FRONTEND:
+
+React + Tailwind CSS
+
+3 pages:
+
+Dashboard:
+
+Show rainfall, soil moisture, tilt, vibration
+
+Show risk percentage and risk level
+
+Auto refresh
+
+Map Page:
+
+Leaflet map
+
+Risk markers (red/yellow/green)
+
+Popup with location details
+
+Alerts Page:
+
+Real-time alerts using Socket.io
+
+Alert history list
+
+BACKEND:
+
+Node.js + Express
+
+MongoDB + Mongoose
+
+REST APIs for sensor, map, alerts
+
+Integrate ML service via HTTP call
+
+Use Socket.io for broadcasting
+
+Proper validation and error handling
+
+Modular folder structure
+
+ML SERVICE:
+
+Python FastAPI
+
+/predict endpoint
+
+Return dummy prediction only (no AI logic yet)
+
+Include:
+
+Project folder structure
+
+Setup instructions
+
+Environment variable examples
+
+Clean scalable architecture
